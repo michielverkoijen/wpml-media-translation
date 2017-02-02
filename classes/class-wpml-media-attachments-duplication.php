@@ -3,14 +3,25 @@
 class WPML_Media_Attachments_Duplication {
 
 	/**
+	 * @var WPML_Post_Status
+	 */
+	private $status_helper;
+
+	/**
 	 * WPML_Media_Attachments_Duplication constructor.
 	 *
-	 * @param SitePress   $sitepress
-	 * @param WPML_WP_API $wpml_wp_api
+	 * @param SitePress $sitepress
+	 * @param null $status_helper
+	 *
+	 * @internal param WPML_WP_API $wpml_wp_api
 	 */
-	public function __construct( &$sitepress ) {
-		$this->sitepress   = &$sitepress;
+	public function __construct( $sitepress, WPML_Post_Status $status_helper = null ) {
+		$this->sitepress   = $sitepress;
 		$this->wpml_wp_api = $this->sitepress->get_wp_api();
+		$this->status_helper = $status_helper;
+		if ( null === $this->status_helper ) {
+			$this->status_helper = wpml_get_post_status_helper();
+		}
 	}
 
 	function create_duplicate_attachment( $attachment_id, $parent_id, $target_language ) {
@@ -98,6 +109,8 @@ class WPML_Media_Attachments_Duplication {
 
 				if ( 0 < $duplicated_attachment_id ) {
 					$this->sitepress->set_element_language_details( $duplicated_attachment_id, 'post_attachment', $trid, $target_language, $source_language );
+					$this->status_helper->set_status( $duplicated_attachment_id, ICL_TM_DUPLICATE );
+					$this->status_helper->set_update_status( $duplicated_attachment_id, false );
 				}
 			}
 

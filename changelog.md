@@ -1,3 +1,9 @@
+# 2.1.24
+
+## Fixes
+* [wpmlmedia-110] Fixed an issue when deleting media and the "Organise my uploads into month- and year-based folders" option is unchecked
+* [wpmlmedia-116] Set translation status when attachment is duplicated
+
 # 2.1.23
 
 ## Fixes

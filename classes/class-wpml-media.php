@@ -1138,6 +1138,7 @@ class WPML_Media
 	{
 		global $wpdb, $sitepress;
 
+		$translated_attachment_id = false;
 		//Get Master Post attachments
 		$master_post_attachment_ids_prepared = $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_parent = %d AND post_type = %s", array($master_post_id, 'attachment'));
 		$master_post_attachment_ids = $wpdb->get_col( $master_post_attachment_ids_prepared );
@@ -1150,8 +1151,7 @@ class WPML_Media
 				if ( $attachment_trid ) {
 					//Get attachment translation
 					$attachment_translations = $sitepress->get_element_translations( $attachment_trid, 'post_attachment' );
-	
-					$translated_attachment_id = false;
+
 					foreach ( $attachment_translations as $attachment_translation ) {
 						if ( $attachment_translation->language_code == $target_lang ) {
 							$translated_attachment_id = $attachment_translation->element_id;
@@ -1198,7 +1198,7 @@ class WPML_Media
 			}
 		
 		}
-		
+		return $translated_attachment_id;
 	}
 
 	/**
@@ -1582,7 +1582,7 @@ class WPML_Media
 
 		$active_languages = $sitepress->get_active_languages();
 
-		$active_languages[ ] = array( 'code' => 'all', 'display_name' => __( 'All languages', 'sitepress' ) );
+		$active_languages[ ] = array( 'code' => 'all', 'display_name' => __( 'All languages', 'wpml-media' ) );
 		$language_items      = array();
 		foreach ( $active_languages as $lang ) {
 			if ( $lang[ 'code' ] == $lang_code ) {
@@ -1695,7 +1695,7 @@ class WPML_Media
 
 		$active_languages = $sitepress->get_active_languages();
 
-		$active_languages[ ] = array( 'code' => 'all', 'display_name' => __( 'All languages', 'sitepress' ) );
+		$active_languages[ ] = array( 'code' => 'all', 'display_name' => __( 'All languages', 'wpml-media' ) );
 
 		$langc[ 'all' ] = 0;
 		$language_items = array();
@@ -1758,8 +1758,7 @@ class WPML_Media
 		if ( $file ) {
 			global $wpdb;
 			//get file name from full name
-			$file_name = preg_replace( '/^(.+)\-\d+x\d+(\.\w+)$/', '$1$2', $file );
-			$file_name = preg_replace( '/^[\s\S]+(\/.+)$/', '$1', $file_name );
+			$file_name = $this->get_file_name_without_size_from_full_name( $file );
 			//check file name in DB
 			$attachment_prepared = $wpdb->prepare( "SELECT pm.meta_id, pm.post_id FROM {$wpdb->postmeta} AS pm WHERE pm.meta_value LIKE %s", array('%'. $file_name));
 			$attachment = $wpdb->get_row( $attachment_prepared );
@@ -1770,6 +1769,14 @@ class WPML_Media
 		}
 
 		return $file;
+	}
+
+	public function get_file_name_without_size_from_full_name( $file ) {
+		$file_name = preg_replace( '/^(.+)\-\d+x\d+(\.\w+)$/', '$1$2', $file );
+		$file_name = preg_replace( '/^[\s\S]+(\/.+)$/', '$1', $file_name );
+		$file_name = str_replace( '/', '', $file_name );
+
+		return $file_name;
 	}
 
 	/**
