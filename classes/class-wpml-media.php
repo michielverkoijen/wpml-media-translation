@@ -447,7 +447,8 @@ class WPML_Media
 	{
 		global $sitepress;
 
-		$attachment_duplication = new WPML_Media_Attachments_Duplication( $sitepress );
+		$attachments_model      = new WPML_Model_Attachments( $sitepress, wpml_get_post_status_helper() );
+		$attachment_duplication = new WPML_Media_Attachments_Duplication( $sitepress, $attachments_model );
 
 		return $attachment_duplication->create_duplicate_attachment( $attachment_id, $parent_id, $target_language );
 	}
