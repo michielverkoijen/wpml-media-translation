@@ -16,7 +16,7 @@ class WPML_Media_Attachments_Duplication {
 	 * @internal param WPML_WP_API $wpml_wp_api
 	 */
 	public function __construct( $sitepress, WPML_Model_Attachments $attachments_model ) {
-		$this->sitepress   = $sitepress;
+		$this->sitepress         = $sitepress;
 		$this->attachments_model = $attachments_model;
 	}
 
