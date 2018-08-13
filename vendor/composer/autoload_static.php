@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitb1683660440c2f75c8c2e6fa4bc23dc6
+class ComposerStaticInitd5ab2ed147e5dc33ae269de0d066f4ae
 {
     public static $prefixesPsr0 = array (
         'x' => 
@@ -30,23 +30,18 @@ class ComposerStaticInitb1683660440c2f75c8c2e6fa4bc23dc6
         'WPML_Media_Attachment_By_URL_Factory' => __DIR__ . '/../..' . '/classes/class-wpml-media-attachment-by-url-factory.php',
         'WPML_Media_Attachment_Image_Update' => __DIR__ . '/../..' . '/classes/media-translation/class-wpml-media-attachment-image-update.php',
         'WPML_Media_Attachment_Image_Update_Factory' => __DIR__ . '/../..' . '/classes/media-translation/class-wpml-media-attachment-image-update-factory.php',
-        'WPML_Media_Attachments_Duplication' => __DIR__ . '/../..' . '/classes/class-wpml-media-attachments-duplication.php',
         'WPML_Media_Attachments_Query' => __DIR__ . '/../..' . '/classes/class-wpml-media-attachments-query.php',
         'WPML_Media_Attachments_Query_Factory' => __DIR__ . '/../..' . '/classes/class-wpml-media-attachments-query-factory.php',
         'WPML_Media_Batch_Url_Translation' => __DIR__ . '/../..' . '/classes/batch-media-url-translation/wpml-media-batch-media-url-translation.php',
+        'WPML_Media_Caption' => __DIR__ . '/../..' . '/classes/media-translation/class-wpml-media-caption.php',
         'WPML_Media_Caption_Tags_Parse' => __DIR__ . '/../..' . '/classes/media-translation/class-wpml-media-caption-tags-parse.php',
         'WPML_Media_Custom_Field_Batch_Url_Translation' => __DIR__ . '/../..' . '/classes/batch-media-url-translation/wpml-media-custom-field-batch-media-url-translation.php',
         'WPML_Media_Custom_Field_Batch_Url_Translation_Factory' => __DIR__ . '/../..' . '/classes/batch-media-url-translation/wpml-media-custom-field-batch-media-url-translation-factory.php',
         'WPML_Media_Custom_Field_Images_Translation' => __DIR__ . '/../..' . '/classes/media-translation/class-wpml-media-custom-field-images-translation.php',
         'WPML_Media_Custom_Field_Images_Translation_Factory' => __DIR__ . '/../..' . '/classes/media-translation/class-wpml-media-custom-field-images-translation-factory.php',
         'WPML_Media_Dependencies' => __DIR__ . '/../..' . '/inc/wpml-media-dependencies.class.php',
-        'WPML_Media_Detect_Media_Without_Language' => __DIR__ . '/../..' . '/classes/setup/class-wpml-media-detect-media-without-language.php',
-        'WPML_Media_Detect_Media_Without_Language_Factory' => __DIR__ . '/../..' . '/classes/setup/class-wpml-media-detect-media-without-language-factory.php',
-        'WPML_Media_Edit_Hooks' => __DIR__ . '/../..' . '/classes/hooks/wpml-media-edit-hooks.php',
-        'WPML_Media_Edit_Hooks_Factory' => __DIR__ . '/../..' . '/classes/factory/wpml-media-edit-hooks-factory.php',
         'WPML_Media_Editor_Notices' => __DIR__ . '/../..' . '/classes/menus/wpml-media-translations-editor-notices.php',
         'WPML_Media_Editor_Notices_Factory' => __DIR__ . '/../..' . '/classes/menus/wpml-media-translations-editor-notices-factory.php',
-        'WPML_Media_Exception' => __DIR__ . '/../..' . '/classes/class-wpml-media-exception.php',
         'WPML_Media_Factory' => __DIR__ . '/../..' . '/classes/class-wpml-media-factory.php',
         'WPML_Media_File' => __DIR__ . '/../..' . '/classes/class-wpml-media-file.php',
         'WPML_Media_File_Factory' => __DIR__ . '/../..' . '/classes/class-wpml-media-file-factory.php',
@@ -80,6 +75,7 @@ class ComposerStaticInitb1683660440c2f75c8c2e6fa4bc23dc6
         'WPML_Media_Set_Initial_Language_Factory' => __DIR__ . '/../..' . '/classes/setup/class-wpml-media-set-initial-language-factory.php',
         'WPML_Media_Set_Posts_Media_Flag' => __DIR__ . '/../..' . '/classes/media-translation/class-wpml-media-set-posts-media-flag.php',
         'WPML_Media_Set_Posts_Media_Flag_Factory' => __DIR__ . '/../..' . '/classes/media-translation/class-wpml-media-set-posts-media-flag-factory.php',
+        'WPML_Media_Sizes' => __DIR__ . '/../..' . '/classes/media-translation/class-wpml-media-sizes.php',
         'WPML_Media_String_Batch_Url_Translation' => __DIR__ . '/../..' . '/classes/batch-media-url-translation/wpml-media-string-batch-media-url-translation.php',
         'WPML_Media_String_Batch_Url_Translation_Factory' => __DIR__ . '/../..' . '/classes/batch-media-url-translation/wpml-media-string-batch-media-url-translation-factory.php',
         'WPML_Media_String_Images_Translation' => __DIR__ . '/../..' . '/classes/media-translation/class-wpml-media-string-images-translation.php',
@@ -97,7 +93,6 @@ class ComposerStaticInitb1683660440c2f75c8c2e6fa4bc23dc6
         'WPML_Media_Usage_Factory' => __DIR__ . '/../..' . '/classes/media-usage/class-wpml-media-usage-factory.php',
         'WPML_Media_Welcome_Notice' => __DIR__ . '/../..' . '/classes/menus/wpml-media-welcome-notice.php',
         'WPML_Media_Welcome_Notice_Factory' => __DIR__ . '/../..' . '/classes/menus/wpml-media-welcome-notice-factory.php',
-        'WPML_Model_Attachments' => __DIR__ . '/../..' . '/classes/model/class-wpml-model-attachments.php',
         'xrstf\\Composer52\\AutoloadGenerator' => __DIR__ . '/..' . '/xrstf/composer-php52/lib/xrstf/Composer52/AutoloadGenerator.php',
         'xrstf\\Composer52\\Generator' => __DIR__ . '/..' . '/xrstf/composer-php52/lib/xrstf/Composer52/Generator.php',
     );
@@ -105,8 +100,8 @@ class ComposerStaticInitb1683660440c2f75c8c2e6fa4bc23dc6
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixesPsr0 = ComposerStaticInitb1683660440c2f75c8c2e6fa4bc23dc6::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitb1683660440c2f75c8c2e6fa4bc23dc6::$classMap;
+            $loader->prefixesPsr0 = ComposerStaticInitd5ab2ed147e5dc33ae269de0d066f4ae::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitd5ab2ed147e5dc33ae269de0d066f4ae::$classMap;
 
         }, null, ClassLoader::class);
     }

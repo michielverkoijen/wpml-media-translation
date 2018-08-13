@@ -69,6 +69,13 @@ msgstr ""
 msgid "For WPML components you can receive updates from your %s or automatically, after you register WPML."
 msgstr ""
 
+# protected function get_privacy_policy() {
+# return __( 'WPML Media Translation will send the email address and name of each manager and assigned translator as well as the content itself to Advanced Translation Editor and to the translation services which are used.', 'wpml-media' );
+# }
+
+msgid "WPML Media Translation will send the email address and name of each manager and assigned translator as well as the content itself to Advanced Translation Editor and to the translation services which are used."
+msgstr ""
+
 # <p>
 # <?php printf( esc_html__( 'The %sWPML Media%s database needs updating. Please run the updater and leave the tab open until it completes.', 'wpml-media' ),
 # '<strong>', '</strong>' ); ?>
@@ -162,10 +169,10 @@ msgid "Loading..."
 msgstr ""
 
 # $wpml_media_basket_notice_data = array(
-# 'button_label' => __( 'I understand', 'wpml_media' ),
-# 'redirect_url' => admin_url( 'admin.php?page=' . $this->wpml_tm_folder . '/menu/main.php&sm=dashboard' )
+# 'button_label' => __( 'Continue', 'wpml_media' ),
+# );
 
-msgid "I understand"
+msgid "Continue"
 msgstr ""
 
 # /* translators: WPML plugin name */
@@ -359,9 +366,9 @@ msgstr ""
 msgid "Save media translation"
 msgstr ""
 
-# $batch_translation_strings = array(
-# 'complete'         => esc_js( __( 'Scan complete!', 'wpml-media' ) )
-# );
+# $batch_translation_vars = array(
+# 'complete'      => esc_js( __( 'Scan complete!', 'wpml-media' ) ),
+# 'is_st_enabled' => (bool) $this->sitepress->get_wp_api()->constant( 'WPML_ST_VERSION' ),
 
 msgid "Scan complete!"
 msgstr ""
@@ -418,12 +425,26 @@ msgstr ""
 
 # 'filter_by_date'           => __( 'Filter by date', 'wpml-media' ),
 # 'all_dates'                => __( 'All dates', 'wpml-media' ),
-# 'filter_by_status'         => __( 'Filter by translation status', 'wpml-media' ),
+# 'in'                       => __( 'in', 'wpml_media' ),
 
 msgid "All dates"
 msgstr ""
 
 # 'all_dates'                => __( 'All dates', 'wpml-media' ),
+# 'in'                       => __( 'in', 'wpml_media' ),
+# 'to'                       => __( 'to', 'wpml_media' ),
+
+msgid "in"
+msgstr ""
+
+# 'in'                       => __( 'in', 'wpml_media' ),
+# 'to'                       => __( 'to', 'wpml_media' ),
+# 'filter_by_status'         => __( 'Filter by translation status', 'wpml-media' ),
+
+msgid "to"
+msgstr ""
+
+# 'to'                       => __( 'to', 'wpml_media' ),
 # 'filter_by_status'         => __( 'Filter by translation status', 'wpml-media' ),
 # 'status_all'               => __( 'All translation statuses', 'wpml-media' ),
 
@@ -439,19 +460,19 @@ msgstr ""
 
 # 'status_all'               => __( 'All translation statuses', 'wpml-media' ),
 # 'status_not'               => __( 'Media file not translated', 'wpml-media' ),
-# 'status_translated'        => __( 'Media file translated', 'wpml-media' ),
+# 'status_translated'        => __( 'Translated media uploaded', 'wpml-media' ),
 
 msgid "Media file not translated"
 msgstr ""
 
 # 'status_not'               => __( 'Media file not translated', 'wpml-media' ),
-# 'status_translated'        => __( 'Media file translated', 'wpml-media' ),
+# 'status_translated'        => __( 'Translated media uploaded', 'wpml-media' ),
 # 'status_in_progress'       => __( 'Translation in progress', 'wpml-media' ),
 
-msgid "Media file translated"
+msgid "Translated media uploaded"
 msgstr ""
 
-# 'status_translated'        => __( 'Media file translated', 'wpml-media' ),
+# 'status_translated'        => __( 'Translated media uploaded', 'wpml-media' ),
 # 'status_in_progress'       => __( 'Translation in progress', 'wpml-media' ),
 # 'status_needs_translation' => __( 'Needs media file translation', 'wpml-media' ),
 
@@ -481,19 +502,19 @@ msgstr ""
 
 # 'any_language'             => __( 'Any language', 'wpml-media' ),
 # 'search_media'             => __( 'Search Media:', 'wpml-media' ),
-# 'search_placeholder'       => __( 'Post title or media text', 'wpml-media' ),
+# 'search_placeholder'       => __( 'Title, caption or description', 'wpml-media' ),
 
 msgid "Search Media:"
 msgstr ""
 
 # 'search_media'             => __( 'Search Media:', 'wpml-media' ),
-# 'search_placeholder'       => __( 'Post title or media text', 'wpml-media' ),
+# 'search_placeholder'       => __( 'Title, caption or description', 'wpml-media' ),
 # 'search_button_label'      => __( 'Filter', 'wpml-media' ),
 
-msgid "Post title or media text"
+msgid "Title, caption or description"
 msgstr ""
 
-# 'search_placeholder'       => __( 'Post title or media text', 'wpml-media' ),
+# 'search_placeholder'       => __( 'Title, caption or description', 'wpml-media' ),
 # 'search_button_label'      => __( 'Filter', 'wpml-media' ),
 # 'original_language'        => __( 'Original language', 'wpml-media' ),
 
@@ -814,6 +835,55 @@ msgstr ""
 # 'default' => get_option( $option_name, 20 ),
 
 msgid "Number of items per page:"
+msgstr ""
+
+# if ( $this->is_media_related_screen( $current_screen ) ) {
+# $media_translation_dashboard = esc_html__( 'WPML &raquo; Media Translation', 'wpml-media' );
+# $wpml_translation_dashboard  = esc_html__( 'WPML &raquo; Translation Management', 'wpml-media' );
+
+msgid "WPML &raquo; Media Translation"
+msgstr ""
+
+# $media_translation_dashboard = esc_html__( 'WPML &raquo; Media Translation', 'wpml-media' );
+# $wpml_translation_dashboard  = esc_html__( 'WPML &raquo; Translation Management', 'wpml-media' );
+# $current_screen->add_help_tab( array(
+
+msgid "WPML &raquo; Translation Management"
+msgstr ""
+
+# 'id'      => 'wpml-media-translation',
+# 'title'   => esc_html__( 'Translating Media', 'wpml-media' ),
+# 'content' =>
+
+msgid "Translating Media"
+msgstr ""
+
+# 'content' =>
+# '<p>' . esc_html__( 'There are two ways for you to translate Media:', 'wpml-media' ) . '</p>' .
+# '<ul>' .
+
+msgid "There are two ways for you to translate Media:"
+msgstr ""
+
+# '<li>' . sprintf(
+# esc_html__( 'Use the dashboard on the %s page to translate your images and other media files.', 'wpml-media' ),
+# $media_translation_dashboard
+
+msgid "Use the dashboard on the %s page to translate your images and other media files."
+msgstr ""
+
+# '<li>' . sprintf(
+# esc_html__( 'Use the dashboard on the %s page to send pages that contain media, for translation.', 'wpml-media' ),
+# $wpml_translation_dashboard
+
+msgid "Use the dashboard on the %s page to send pages that contain media, for translation."
+msgstr ""
+
+# '</ul>' .
+# '<a href="https://wpml.org/?page_id=113610">' . esc_html__( 'Learn more about WPML Media Translation', 'wpml-media' ) . '</a>'
+# ) );
+
+msgid "Learn more about WPML Media Translation"
 msgstr ""
 
 # ?>

@@ -4,7 +4,6 @@ class WPML_Media_Upgrade {
 	private static $versions = array(
 		'2.0',
 		'2.0.1',
-		'2.3.0'
 	);
 
 	static function run() {
@@ -14,43 +13,51 @@ class WPML_Media_Upgrade {
 		$wpml_media_settings_prepared = $wpdb->prepare( "select option_value from {$wpdb->prefix}options where option_name = %s", '_wpml_media' );
 		$wpml_media_settings          = $wpdb->get_col( $wpml_media_settings_prepared );
 
+		$needs_version_update = true;
+
 		//Do not run upgrades if this is a new install (i.e.: plugin has no settings)
 		if ( $wpml_media_settings || get_option( '_wpml_media_starting_help' ) ) {
+			$current_version = WPML_Media::get_setting( 'version', null );
 
-			//Read the version stored in plugin settings and defaults to '1.6' (the last version before introducing the upgrade logic) if not found
-			$current_version = WPML_Media::get_setting( 'version', '1.6' );
-
-			$migration_ran = false;
-
-			if ( version_compare( $current_version, WPML_MEDIA_VERSION, '<' ) ) {
-
-				foreach ( self::$versions as $version ) {
-					if ( version_compare( $version, WPML_MEDIA_VERSION, '<=' ) && version_compare( $version, $current_version, '>' ) ) {
-
-						$upgrade_method = 'upgrade_' . str_replace( '.', '_', $version );
-						if ( method_exists( __CLASS__, $upgrade_method ) ) {
-							self::$upgrade_method();
-							$migration_ran = true;
-						}
-					}
-				}
+			if ( $current_version ) {
+				$needs_version_update = version_compare( $current_version, WPML_MEDIA_VERSION, '<' );
+				self::run_upgrades_before_2_3_0( $current_version );
+			} elseif ( self::is_media_version_older_than_2_0() ) {
+				$needs_version_update = true;
+				self::run_upgrades_before_2_3_0( '1.6' );
 			}
-		} else {
-			//Nothing to update, setting migration as ran
-			$migration_ran = true;
 		}
 
-		if ( isset( $current_version ) && version_compare( $current_version, '2.3.0', '<' ) ) {
-			update_option( 'wpml_media_upgraded_from_prior_2_3_0', 1 );
-		}
-
-		//If any upgrade method has been completed, or there is nothing to update, update the version stored in plugin settings
-		if ( $migration_ran ) {
+		if ( $needs_version_update ) {
 			WPML_Media::update_setting( 'version', WPML_MEDIA_VERSION );
 		}
 
 		// Blocking database migration
 		self::upgrade_2_3_0();
+	}
+
+	/** @param int $current_version */
+	private static function run_upgrades_before_2_3_0( $current_version ) {
+		if ( version_compare( $current_version, '2.3.0', '<' ) ) {
+
+			foreach ( self::$versions as $version ) {
+				if ( version_compare( $version, WPML_MEDIA_VERSION, '<=' ) && version_compare( $version, $current_version, '>' ) ) {
+
+					$upgrade_method = 'upgrade_' . str_replace( '.', '_', $version );
+					if ( method_exists( __CLASS__, $upgrade_method ) ) {
+						self::$upgrade_method();
+					}
+				}
+			}
+
+			update_option( 'wpml_media_upgraded_from_prior_2_3_0', 1 );
+		}
+	}
+
+	/** @return bool */
+	private static function is_media_version_older_than_2_0() {
+		global $wpdb;
+		return (bool) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->postmeta} WHERE meta_key = 'wpml_media_duplicate_of'" );
 	}
 
 	private static function upgrade_2_0() {

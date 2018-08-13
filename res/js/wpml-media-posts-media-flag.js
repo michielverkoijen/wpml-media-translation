@@ -80,7 +80,8 @@ jQuery(function ($) {
             dataType: "json",
             data: data,
             success: function (response) {
-                setStatus(response.data.message);
+				var message = response.message ? response.message : response.data.message;
+                setStatus( message );
                 setHasMediaFlag(0);
             }
         });

@@ -51,7 +51,10 @@ var WPML_Media_Batch_Url_Translation = WPML_Media_Batch_Url_Translation || {
 
         var nextAction = [];
         nextAction['wpml_media_translate_media_url_in_posts'] = 'wpml_media_translate_media_url_in_custom_fields';
-        nextAction['wpml_media_translate_media_url_in_custom_fields'] = 'wpml_media_translate_media_url_in_strings';
+
+        if ( wpml_media_batch_translation.is_st_enabled ) {
+			nextAction['wpml_media_translate_media_url_in_custom_fields'] = 'wpml_media_translate_media_url_in_strings';
+		}
 
         self.setInProgress(true);
         jQuery.ajax({

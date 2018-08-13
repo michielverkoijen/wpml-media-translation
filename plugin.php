@@ -2,10 +2,10 @@
 /**
  * Plugin Name: WPML Media
  * Plugin URI: https://wpml.org/
- * Description: Add multilingual support for Media files | <a href="https://wpml.org/?page_id=113610">Documentation</a> | <a href="https://wpml.org/version/media-translation-2-3-2/">WPML Media Translation 2.3.2 release notes</a>
+ * Description: Add multilingual support for Media files | <a href="https://wpml.org/?page_id=113610">Documentation</a> | <a href="https://wpml.org/version/media-translation-2-3-5/">WPML Media Translation 2.3.5 release notes</a>
  * Author: OnTheGoSystems
  * Author URI: http://www.onthegosystems.com/
- * Version: 2.3.2
+ * Version: 2.3.5
  * Plugin Slug: wpml-media-translation
  */
 
@@ -13,7 +13,7 @@ if ( defined( 'WPML_MEDIA_VERSION' ) ) {
 	return;
 }
 
-define( 'WPML_MEDIA_VERSION', '2.3.2' );
+define( 'WPML_MEDIA_VERSION', '2.3.5' );
 define( 'WPML_MEDIA_PATH', dirname( __FILE__ ) );
 
 $autoloader_dir = WPML_MEDIA_PATH . '/vendor';
@@ -62,7 +62,6 @@ if ( $media_dependencies->check() ) {
 			'WPML_Media_Translation_Status_Factory',
 			'WPML_Media_Post_Media_Usage_Factory',
 			'WPML_Media_Submitted_Basket_Notice_Factory',
-			'WPML_Media_Detect_Media_Without_Language_Factory',
 			'WPML_Media_Privacy_Content_Factory',
 		);
 
@@ -77,7 +76,6 @@ if ( $media_dependencies->check() ) {
 		if ( class_exists( 'WPML_Current_Screen_Loader_Factory' ) ) {
 
 			$loaders = array(
-				'WPML_Media_Edit_Hooks_Factory',
 				'WPML_Media_Attachments_Query_Factory',
 				'WPML_Media_Post_Images_Translation_Factory',
 				'WPML_Media_Post_Batch_Url_Translation_Factory',
@@ -106,18 +104,6 @@ if ( $media_dependencies->check() ) {
 		$action_filter_loader = new WPML_Action_Filter_Loader();
 		$action_filter_loader->load( $loaders );
 
-	}
-}
-
-add_action( 'activate_' . WPML_MEDIA_FOLDER . '/plugin.php', 'wpml_media_activation_actions' );
-function wpml_media_activation_actions() {
-	if ( defined( 'ICL_SITEPRESS_VERSION' ) ) {
-		$loaders = array(
-			'WPML_Media_Detect_Media_Without_Language_Factory'
-		);
-
-		$action_filter_loader = new WPML_Action_Filter_Loader();
-		$action_filter_loader->load( $loaders );
 	}
 }
 

@@ -42,27 +42,26 @@ class WPML_Media_Translation_Status implements IWPML_Action {
 
 	public function save_bundled_media_translation( $new_post_id, $fields, $job ) {
 
-		if ( $this->includes_media_translation( $job ) ) {
+		$media_translations  = $this->get_media_translations( $job );
+		$translation_package = new WPML_Element_Translation_Package();
 
-			$media_translations  = $this->get_media_translations( $job );
-			$translation_package = new WPML_Element_Translation_Package();
-
-			foreach ( $media_translations as $attachment_id => $translation_data ) {
-				$attachment_translation_id = $this->save_attachment_translation(
-					$attachment_id,
-					$translation_data,
-					$translation_package,
-					$job->language_code
-				);
+		foreach ( $media_translations as $attachment_id => $translation_data ) {
+			$attachment_translation_id = $this->save_attachment_translation(
+				$attachment_id,
+				$translation_data,
+				$translation_package,
+				$job->language_code
+			);
+			if ( $this->should_translate_media_image( $job, $attachment_id ) ) {
 				$this->set_status( $attachment_id, $job->language_code, self::NEEDS_MEDIA_TRANSLATION );
 			}
-
 		}
+
 	}
 
-	private function includes_media_translation( $job ) {
+	private function should_translate_media_image( $job, $attachment_id ) {
 		foreach ( $job->elements as $element ) {
-			if ( 'includes_media_translation' === $element->field_type && $element->field_data ) {
+			if ( 'should_translate_media_image_' . $attachment_id === $element->field_type && $element->field_data ) {
 				return true;
 			}
 		}

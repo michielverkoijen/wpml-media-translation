@@ -8,15 +8,16 @@
         {% include 'media-translation-filters.twig' %}
     </div>
 
-    <table class="widefat striped wpml-media-table">
+    <table class="widefat striped wpml-media-table js-otgs-table-sticky-header">
         <thead>
         <tr>
             <th class="wpml-col-media-title">{{ strings.original_language }}</th>
             <th class="wpml-col-media-translations">
                 {% for code, language in languages %}
                     {% if target_language is empty or target_language == code %}
-                        <span title="{{ language.name }}"><img src="{{ language.flag }}" width="16" height="12"
-                                                               alt="{{ language.code }}"></span>
+                        <span class="js-wpml-popover-tooltip" title="{{ language.name }}"><img src="{{ language.flag }}"
+                                                                                               width="16" height="12"
+                                                                                               alt="{{ language.code }}"></span>
                     {% endif %}
                 {% endfor %}
             </th>

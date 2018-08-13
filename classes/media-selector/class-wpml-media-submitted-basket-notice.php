@@ -37,7 +37,7 @@ class WPML_Media_Submitted_Basket_Notice implements IWPML_Action {
 
 		$media_translation_url  = admin_url( 'admin.php?page=wpml-media' );
 		$media_translation_link = sprintf(
-			'<a href="%s">%s &raquo; %s</a>',
+			'<a href="%s" target="_blank" rel="noopener" class="wpml-external-link">%s &raquo; %s</a>',
 			$media_translation_url,
 			$wpml_plugin_name,
 			$media_translation_name

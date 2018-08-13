@@ -19,7 +19,8 @@ class WPML_Media_Image_Translate {
 	/**
 	 * WPML_Media_Image_Translate constructor.
 	 *
-	 * @param SitePress $sitepress
+	 * @param SitePress                            $sitepress
+	 * @param WPML_Media_Attachment_By_URL_Factory $attachment_by_url_factory
 	 */
 	public function __construct( SitePress $sitepress, WPML_Media_Attachment_By_URL_Factory $attachment_by_url_factory ) {
 		$this->sitepress                 = $sitepress;
@@ -34,21 +35,18 @@ class WPML_Media_Image_Translate {
 	 * @return string
 	 */
 	public function get_translated_image( $attachment_id, $language, $size = null ) {
+		$image_url              = '';
 
 		$attachment             = new WPML_Post_Element( $attachment_id, $this->sitepress );
 		$attachment_translation = $attachment->get_translation( $language );
-		$image_url              = '';
 
 		if ( $attachment_translation ) {
-			$uploads_dir = wp_get_upload_dir();
+			$uploads_dir   = wp_get_upload_dir();
+			$attachment_id = $attachment_translation->get_id();
 			if ( null === $size ) {
-				$image_url = $uploads_dir['baseurl'] . '/' .
-				             get_post_meta( $attachment_translation->get_id(), '_wp_attached_file', true );
+				$image_url = $uploads_dir['baseurl'] . '/' . get_post_meta( $attachment_id, '_wp_attached_file', true );
 			} else {
-				$meta_data = wp_get_attachment_metadata( $attachment_translation->get_id() );
-				if ( isset( $meta_data['sizes'][ $size ] ) ) {
-					$image_url = $uploads_dir['baseurl'] . '/' . $meta_data['sizes'][ $size ]['file'];
-				}
+				$image_url = $this->get_sized_image_url( $attachment_id, $size, $uploads_dir );
 			}
 		}
 
@@ -103,5 +101,32 @@ class WPML_Media_Image_Translate {
 		return $size;
 	}
 
+	/**
+	 * @param $attachment_id
+	 * @param $size
+	 * @param $uploads_dir
+	 *
+	 * @return string
+	 */
+	private function get_sized_image_url( $attachment_id, $size, $uploads_dir ) {
+		$image_url = '';
+		$meta_data = wp_get_attachment_metadata( $attachment_id );
 
+		if ( array_key_exists( $size, $meta_data['sizes'] ) ) {
+			$image_url_parts = array( $uploads_dir['baseurl'] );
+
+			if ( array_key_exists( 'file', $meta_data ) ) {
+				$file_subdirectory       = $meta_data['file'];
+				$file_subdirectory_parts = explode( '/', $file_subdirectory );
+
+				array_pop( $file_subdirectory_parts );
+				$image_url_parts[] = implode( '/', $file_subdirectory_parts );
+			}
+			$image_url_parts[] = $meta_data['sizes'][ $size ]['file'];
+
+			$image_url = implode( '/', $image_url_parts );
+		}
+
+		return $image_url;
+	}
 }

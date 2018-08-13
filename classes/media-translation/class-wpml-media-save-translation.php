@@ -129,6 +129,10 @@ class WPML_Media_Save_Translation implements IWPML_Action {
 				}
 			}
 
+			if ( isset( $media_usage['posts'] ) && $this->should_restore_media() ) {
+				do_action( 'wpml_restored_media_file_translation', $attachment_id, $media_usage['posts'] );
+			}
+
 			$response = array(
 				'attachment_id' => $attachment_id,
 				'thumb'         => $media_file_is_translated ? $translated_thumb : false,

@@ -11,7 +11,8 @@
     data-description="{{ attachment.post.post_content }}"
     data-flag="{{ languages[attachment.language].flag }}">
     <td class="wpml-col-media-title">
-        <span title="{{ languages[attachment.language].name }}" class="wpml-media-original-flag">
+        <span title="{{ languages[attachment.language].name }}" class="wpml-media-original-flag js-wpml-popover-tooltip"
+              data-tippy-distance="-12">
             <img src="{{ languages[attachment.language].flag }}" width="16" height="12" alt="{{ attachment.language }}">
         </span>
         <span class="wpml-media-wrapper">
@@ -24,14 +25,18 @@
         {% for code, language in languages %}
             {% if target_language is empty or target_language == code %}
                 {% if attachment.language == code %}
-                    <span title="{{ languages[attachment.language].name }}: {{ strings.original_language }}">
+                    <span class="js-wpml-popover-tooltip" data-tippy-distance="-12"
+                          title="{{ languages[attachment.language].name }}: {{ strings.original_language }}">
                                     <i class="otgs-ico-original"></i>
                                 </span>
                 {% else %}
-                    <span class="wpml-media-wrapper"
+                    <span class="wpml-media-wrapper js-wpml-popover-tooltip"
                           id="media-attachment-{{ attachment.post.ID }}-{{ code }}"
                           data-file-name="{{ attachment.translations[code].file_name }}"
                           title="{{ languages[code].name }}: {{ strings.statuses[attachment.translations[code].status ] }}"
+                            {% if not attachment.translations[code].media_is_translated %}
+                          data-tippy-distance="-12"
+                            {% endif %}
                           data-attachment-id="{{ attachment.translations[code].id }}"
                           data-language-code="{{ code }}"
                           data-language-name="{{ language.name }}"

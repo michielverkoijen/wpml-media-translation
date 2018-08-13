@@ -217,8 +217,9 @@ class WPML_Media_Translations_UI extends WPML_Templates_Factory {
 		$this->remove_query_filters();
 
 		foreach ( $attachment_posts as $attachment ) {
-			$post_element        = new WPML_Post_Element( $attachment->ID, $this->sitepress );
-			$media_file_original = get_post_meta( $attachment->ID, '_wp_attached_file', true );
+			$attachment_id       = $attachment->ID;
+			$post_element        = new WPML_Post_Element( $attachment_id, $this->sitepress );
+			$media_file_original = get_post_meta( $attachment_id, '_wp_attached_file', true );
 			$translations        = array();
 
 			$is_image = (int) ( 0 === strpos( $attachment->post_mime_type, 'image/' ) );
@@ -239,11 +240,7 @@ class WPML_Media_Translations_UI extends WPML_Templates_Factory {
 						'alt'                 => get_post_meta( $translation->get_id(), '_wp_attachment_image_alt', true ),
 						'thumb'               => $this->get_attachment_thumb( $translation->get_id(), $is_image ),
 						'media_is_translated' => $media_file_translated && $media_file_translated !== $media_file_original,
-						'status'              => get_post_meta(
-							$attachment->ID,
-							WPML_Media_Translation_Status::STATUS_PREFIX . $translation->get_language_code(),
-							true
-						)
+						'status'              => $this->get_translation_status( $attachment_id, $translation )
 					);
 
 				} else {
@@ -258,10 +255,10 @@ class WPML_Media_Translations_UI extends WPML_Templates_Factory {
 				'post'         => $attachment,
 				'is_image'     => $is_image,
 				'file_name'    => basename( $media_file_original ),
-				'alt'          => get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true ),
-				'meta'         => get_post_meta( $attachment->ID, '_wp_attachment_metadata', true ),
+				'alt'          => get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ),
+				'meta'         => get_post_meta( $attachment_id, '_wp_attachment_metadata', true ),
 				'language'     => $post_element->get_language_code(),
-				'thumb'        => $this->get_attachment_thumb( $attachment->ID, $is_image ),
+				'thumb'        => $this->get_attachment_thumb( $attachment_id, $is_image ),
 				'translations' => $translations
 			);
 
@@ -361,8 +358,8 @@ class WPML_Media_Translations_UI extends WPML_Templates_Factory {
 	}
 
 	private function remove_query_filters() {
-		add_filter( 'posts_join', array( $this->wpml_query_filter, 'posts_join_filter' ), 10 );
-		add_filter( 'posts_where', array( $this->wpml_query_filter, 'posts_where_filter' ), 10 );
+		add_filter( 'posts_join', array( $this->wpml_query_filter, 'posts_join_filter' ), 10, 2 );
+		add_filter( 'posts_where', array( $this->wpml_query_filter, 'posts_where_filter' ), 10, 2 );
 
 		remove_filter( 'posts_join', array( $this, 'filter_request_clause_join' ), PHP_INT_MAX );
 		remove_filter( 'posts_where', array( $this, 'filter_request_clause_where' ), PHP_INT_MAX );
@@ -493,6 +490,25 @@ class WPML_Media_Translations_UI extends WPML_Templates_Factory {
 	 */
 	public function get_template() {
 		return 'media-translation.twig';
+	}
+
+	/**
+	 * @param $attachment_id
+	 * @param $translation
+	 *
+	 * @return mixed|string
+	 */
+	private function get_translation_status( $attachment_id, $translation ) {
+		$translation_status = get_post_meta(
+			$attachment_id,
+			WPML_Media_Translation_Status::STATUS_PREFIX . $translation->get_language_code(),
+			true
+		);
+		if ( ! $translation_status ) {
+			$translation_status = WPML_Media_Translation_Status::NOT_TRANSLATED;
+		}
+
+		return $translation_status;
 	}
 
 

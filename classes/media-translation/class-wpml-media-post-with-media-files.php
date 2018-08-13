@@ -69,6 +69,10 @@ class WPML_Media_Post_With_Media_Files {
 				$media_ids = array_unique( array_values( array_merge( $media_ids, $gallery_media_ids ) ) );
 			}
 
+			if ( $attached_media_ids = $this->get_attached_media_ids( $this->post_id ) ) {
+				$media_ids = array_unique( array_values( array_merge( $media_ids, $attached_media_ids ) ) );
+			}
+
 		}
 
 		return apply_filters( 'wpml_ids_of_media_used_in_post', $media_ids, $this->post_id );
@@ -168,5 +172,16 @@ class WPML_Media_Post_With_Media_Files {
 		}
 
 		return $content;
+	}
+
+	private function get_attached_media_ids( $post_id ) {
+		$attachments = get_children(
+			array(
+				'post_parent' => $post_id,
+				'post_status' => 'inherit',
+				'post_type'   => 'attachment',
+			)
+		);
+		return array_keys( $attachments );
 	}
 }
