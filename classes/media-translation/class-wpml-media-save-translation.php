@@ -212,6 +212,7 @@ class WPML_Media_Save_Translation implements IWPML_Action {
 			update_post_meta( $attachment_id, $meta_key,
 				get_post_meta( $original_attachment_id, $meta_key, true ) );
 		}
+		do_action( 'wpml_after_copy_attached_file_postmeta', $original_attachment_id, $attachment_id );
 	}
 
 	private function mark_media_as_not_translated( $attachment_id, $language ) {
@@ -253,6 +254,8 @@ class WPML_Media_Save_Translation implements IWPML_Action {
 			$post_data = $this->get_attachment_post_data( $file );
 			$this->wpdb->update( $this->wpdb->posts, $post_data, array( 'ID' => $attachment_id ) );
 			update_attached_file( $attachment_id, $file['file'] );
+			do_action( 'wpml_updated_attached_file', $attachment_id, $file, $translated_language );
+
 			wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $file['file'] ) );
 
 			$this->mark_media_as_translated( $original_attachment_id, $translated_language );
